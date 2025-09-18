@@ -1,5 +1,5 @@
-import { makeDebugOverlay } from "./src/utils/debugOverlay.js";
-import { Timer } from "./src/utils/timer.js";
+import { makeDebugOverlay } from "./src/debugOverlay.js";
+import { Timer } from "./src/timer.js";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Screen.getMode();
 Screen.setVSync(true); // makes framerate stable
