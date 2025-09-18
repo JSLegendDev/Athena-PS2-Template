@@ -1,33 +1,22 @@
+import { makeDebugOverlay } from "./src/utils/debugOverlay.js";
 import { Timer } from "./src/utils/timer.js";
-import { makeDebugOutput } from "./src/utils/debugOutput.js";
 
-const WIDTH = 640;
-const HEIGHT = 448;
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Screen.getMode();
+Screen.setVSync(true); // makes framerate stable
+Screen.setFrameCounter(true); // toggles frame counting and FPS collecting.
+const debugOverlay = makeDebugOverlay();
 
-function initScreen() {
-  const screenMode = Screen.getMode();
-  screenMode.width = WIDTH;
-  screenMode.height = HEIGHT;
-  Screen.setMode(screenMode);
-  Screen.setVSync(true); // makes framerate stable
-  Screen.setFrameCounter(true); // toggles frame counting and FPS collecting.
-}
-
-initScreen();
-const font = new Font("default");
+const maniaFont = new Font("./assets/mania.ttf");
+const sprite = new Image("./assets/sonic.png");
 // Get the first player controller
 // First player -> 0, Second player -> 1
 const controller1 = Pads.get(0);
-
-const sprite = new Image("assets/sonic.png");
-const debug = makeDebugOutput(font, 30, 30);
+const spritePos = { x: SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2 };
 const scale = 2;
-let spritePosX = WIDTH / 2;
-let spritePosY = HEIGHT / 2;
 const speed = 3;
 sprite.width = 32 * scale;
 sprite.height = 44 * scale;
-const runAnim = [
+const runAnimFrames = [
   { startx: 0, endx: 32, starty: 0, endy: 44 },
   { startx: 32, endx: 64, starty: 0, endy: 44 },
   { startx: 64, endx: 96, starty: 0, endy: 44 },
@@ -37,68 +26,43 @@ const runAnim = [
   { startx: 192, endx: 224, starty: 0, endy: 44 },
   { startx: 224, endx: 256, starty: 0, endy: 44 },
 ];
-let spriteIndex = 0;
-const frameDelay = 30;
+let frameIndex = 0;
+const frameDuration = 30;
 const timer = new Timer();
-const diagonalFactor = 1 / Math.sqrt(2);
 Screen.display(() => {
   controller1.update();
 
-  if (controller1.btns === Pads.RIGHT) {
-    spritePosX = spritePosX + speed;
-  }
-  if (controller1.btns === Pads.LEFT) {
-    spritePosX = spritePosX - speed;
+  if (controller1.pressed(Pads.RIGHT)) {
+    spritePos.x = spritePos.x + speed;
   }
 
-  if (controller1.btns === Pads.UP) {
-    spritePosY = spritePosY - speed;
+  if (controller1.pressed(Pads.LEFT)) {
+    spritePos.x = spritePos.x - speed;
   }
 
-  if (controller1.btns === Pads.DOWN) {
-    spritePosY = spritePosY + speed;
+  if (controller1.pressed(Pads.UP)) {
+    spritePos.y = spritePos.y - speed;
   }
 
-  if (controller1.btns === Pads.RIGHT + Pads.UP) {
-    spritePosX = spritePosX + speed * diagonalFactor;
-    spritePosY = spritePosY - speed * diagonalFactor;
+  if (controller1.pressed(Pads.DOWN)) {
+    spritePos.y = spritePos.y + speed;
   }
 
-  if (controller1.btns === Pads.LEFT + Pads.UP) {
-    spritePosX = spritePosX - speed * diagonalFactor;
-    spritePosY = spritePosY - speed * diagonalFactor;
-  }
+  maniaFont.print(10, SCREEN_HEIGHT - 30, "Move Sonic around using the D-Pad");
 
-  if (controller1.btns === Pads.RIGHT + Pads.DOWN) {
-    spritePosX = spritePosX + speed * diagonalFactor;
-    spritePosY = spritePosY + speed * diagonalFactor;
-  }
-
-  if (controller1.btns === Pads.LEFT + Pads.DOWN) {
-    spritePosX = spritePosX - speed * diagonalFactor;
-    spritePosY = spritePosY + speed * diagonalFactor;
-  }
-
-  font.print(WIDTH / 2, HEIGHT / 2, "Hello World!");
-
-  if (timer.get() > frameDelay) {
-    if (spriteIndex < runAnim.length - 1) {
-      spriteIndex++;
+  if (timer.get() > frameDuration) {
+    if (frameIndex < runAnimFrames.length - 1) {
+      frameIndex++;
       timer.reset();
     } else {
-      spriteIndex = 0;
+      frameIndex = 0;
     }
   }
-  sprite.startx = runAnim[spriteIndex].startx;
-  sprite.endx = runAnim[spriteIndex].endx;
-  sprite.starty = runAnim[spriteIndex].starty;
-  sprite.endy = runAnim[spriteIndex].endy;
-  sprite.draw(spritePosX, spritePosY);
+  sprite.startx = runAnimFrames[frameIndex].startx;
+  sprite.endx = runAnimFrames[frameIndex].endx;
+  sprite.starty = runAnimFrames[frameIndex].starty;
+  sprite.endy = runAnimFrames[frameIndex].endy;
+  sprite.draw(spritePos.x, spritePos.y);
 
-  // debug.print(`spriteIndex: ${spriteIndex}`);
-  debug.print(
-    `controller1.btns : ${new String(controller1.btns)}, Pads.RIGHT : ${
-      Pads.RIGHT
-    }, Pads.LEFT : ${Pads.LEFT}`
-  );
+  debugOverlay.draw();
 });
