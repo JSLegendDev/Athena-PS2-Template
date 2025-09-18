@@ -15,10 +15,18 @@ function initScreen() {
 
 initScreen();
 const font = new Font("default");
+// Get the first player controller
+// First player -> 0, Second player -> 1
+const controller1 = Pads.get(0);
+
 const sprite = new Image("assets/sonic.png");
 const debug = makeDebugOutput(font, 30, 30);
-sprite.width = 32 * 2;
-sprite.height = 44 * 2;
+const scale = 2;
+let spritePosX = WIDTH / 2;
+let spritePosY = HEIGHT / 2;
+const speed = 3;
+sprite.width = 32 * scale;
+sprite.height = 44 * scale;
 const runAnim = [
   { startx: 0, endx: 32, starty: 0, endy: 44 },
   { startx: 32, endx: 64, starty: 0, endy: 44 },
@@ -32,8 +40,45 @@ const runAnim = [
 let spriteIndex = 0;
 const frameDelay = 30;
 const timer = new Timer();
+const diagonalFactor = 1 / Math.sqrt(2);
 Screen.display(() => {
-  Screen.clear();
+  controller1.update();
+
+  if (controller1.btns === Pads.RIGHT) {
+    spritePosX = spritePosX + speed;
+  }
+  if (controller1.btns === Pads.LEFT) {
+    spritePosX = spritePosX - speed;
+  }
+
+  if (controller1.btns === Pads.UP) {
+    spritePosY = spritePosY - speed;
+  }
+
+  if (controller1.btns === Pads.DOWN) {
+    spritePosY = spritePosY + speed;
+  }
+
+  if (controller1.btns === Pads.RIGHT + Pads.UP) {
+    spritePosX = spritePosX + speed * diagonalFactor;
+    spritePosY = spritePosY - speed * diagonalFactor;
+  }
+
+  if (controller1.btns === Pads.LEFT + Pads.UP) {
+    spritePosX = spritePosX - speed * diagonalFactor;
+    spritePosY = spritePosY - speed * diagonalFactor;
+  }
+
+  if (controller1.btns === Pads.RIGHT + Pads.DOWN) {
+    spritePosX = spritePosX + speed * diagonalFactor;
+    spritePosY = spritePosY + speed * diagonalFactor;
+  }
+
+  if (controller1.btns === Pads.LEFT + Pads.DOWN) {
+    spritePosX = spritePosX - speed * diagonalFactor;
+    spritePosY = spritePosY + speed * diagonalFactor;
+  }
+
   font.print(WIDTH / 2, HEIGHT / 2, "Hello World!");
 
   if (timer.get() > frameDelay) {
@@ -48,7 +93,12 @@ Screen.display(() => {
   sprite.endx = runAnim[spriteIndex].endx;
   sprite.starty = runAnim[spriteIndex].starty;
   sprite.endy = runAnim[spriteIndex].endy;
-  sprite.draw(WIDTH / 2, HEIGHT / 2);
+  sprite.draw(spritePosX, spritePosY);
 
-  debug.print(`spriteIndex: ${spriteIndex}`);
+  // debug.print(`spriteIndex: ${spriteIndex}`);
+  debug.print(
+    `controller1.btns : ${new String(controller1.btns)}, Pads.RIGHT : ${
+      Pads.RIGHT
+    }, Pads.LEFT : ${Pads.LEFT}`
+  );
 });
