@@ -1,7 +1,7 @@
 # Athena PS2 Template
 
 This is a template you can use to make games for the PS2 (Playstation 2) using the JavaScript programming language.
-This is made possible by the Athena engine.
+This is made possible by the AthenaEnv engine.
 
 # How to Run?
 
@@ -25,3 +25,8 @@ Once the zip is created, you can convert it into an `.iso` with this website htt
 If you know of other alternatives that successfully builds an `.iso` that runs, feel free to make a pull request.
 
 Once the `.iso` is created, you can open it up in the emulator like you would any other PS2 game.
+
+# For More Resources
+
+- [PS2 Sonic Infinite Runner Source Code](https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2)
+- [The Athena Env repo, documentation included in README](https://github.com/DanielSant0s/AthenaEnv)
