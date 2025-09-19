@@ -16,6 +16,8 @@ const scale = 2;
 const speed = 3;
 sprite.width = 32 * scale;
 sprite.height = 44 * scale;
+const offset = 32 * scale;
+let spriteIsFlippedX = false;
 const runAnimFrames = [
   { startx: 0, endx: 32, starty: 0, endy: 44 },
   { startx: 32, endx: 64, starty: 0, endy: 44 },
@@ -33,10 +35,22 @@ Screen.display(() => {
   controller1.update();
 
   if (controller1.pressed(Pads.RIGHT)) {
+    if (spriteIsFlippedX) {
+      sprite.width = Math.abs(sprite.width);
+      spriteIsFlippedX = false;
+      spritePos.x -= offset;
+    }
+
     spritePos.x = spritePos.x + speed;
   }
 
   if (controller1.pressed(Pads.LEFT)) {
+    if (!spriteIsFlippedX) {
+      sprite.width = -Math.abs(sprite.width);
+      spriteIsFlippedX = true;
+      spritePos.x += offset;
+    }
+
     spritePos.x = spritePos.x - speed;
   }
 
