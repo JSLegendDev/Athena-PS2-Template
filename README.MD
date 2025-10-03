@@ -30,3 +30,9 @@ Once the `.iso` is created, you can open it up in the emulator like you would an
 
 - [PS2 Sonic Infinite Runner Source Code](https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2)
 - [The Athena Env repo, documentation included in README](https://github.com/DanielSant0s/AthenaEnv)
+
+# Important
+
+The version available in the repository is a stable version called AthenaEnv V4. The documentation/README has been updated to: https://github.com/DanielSant0s/AthenaEnv/blob/v4/README.md
+
+You can still use the version available in the AthenaEnv GitHub Releases section, the most stable version, but remember to use the documentation/README already available from the beginning.
