@@ -32,6 +32,23 @@ Download `genisoimage` for your distro:
  | **-R** | Enables Rock Ridge extensions, which allows for additional file attributes and metadata specific to UNIX/Linux systems, such as long file names and ownership information. |
  | **-J** | Enables Joliet extensions, which provide support for long file names and Unicode characters, making the ISO compatible with Windows systems. |
 
+## CLI (macOS) Way
+
+Download `mkisofs` for macOS. If you have Homebrew installed, you can easily get it with the following command:
+
+```bash
+brew install cdrtools
+```
+
+Once you have `mkisofs`, you can create an ISO image using this command (Do not zip the folder):
+
+```bash
+mkisofs -o {name_of_iso}.iso -R -J {/folder/holding/all/the/files}
+```
+
+Your newly created `iso` can now be opened with any emulator, just like a real PS2 game.
+
+(All other command flags are similar to the `genisoimage` one listed above)
 
 ## CLI (Windows) Way (NOT TESTED YET)
 1. Install 7-zip
