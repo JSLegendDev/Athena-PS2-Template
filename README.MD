@@ -5,6 +5,8 @@ This is made possible by the AthenaEnv engine.
 
 # How to Run?
 
+See the [How to build the ISO](#how-to-make-an-iso) section for instructions, or you can read below.
+
 Assuming that you have a working PCSX2 emulator on your machine and that you have enabled the
 checkbox "Enable host filesystem" under Settings > Emulation.
 
@@ -13,26 +15,41 @@ In PCSX2, you can achieve this under System > Start File... by selecting the `at
 
 # How to Make an .iso?
 
-You might want to build a single .iso file you can distribute your game as.
-To achieve this, create a zip of all the files present in this template.
-This includes your source code, `athena.elf`, `athena.ini`, `ATHA_000.01` and `SYSTEM.CNF`.
-Exclude this readme.
+You can now use the provided build script to automatically create an `.iso` from the template files.
 
-Make sure to create the zip archive by selecting each file and folder one by one rather than zipping the outer folder
-containing everything. It might still work, but I only had success with the former method.
+## On Debian/Ubuntu or WSL with Ubuntu:
 
-Once the zip is created, you can convert it into an `.iso` with this website https://mconverter.eu/.
-If you know of other alternatives that successfully builds an `.iso` that runs, feel free to make a pull request.
+1. Open a terminal in the template directory and run:
 
-Once the `.iso` is created, you can open it up in the emulator like you would any other PS2 game.
+```bash
+bash build.sh
+```
+
+2. The script will build out the ISO, its pretty self explanatory
+
+3. Once the ISO is created, you can open it in PCSX2 like any other PS2 game.
+
+## On Windows (without native Linux tools):
+
+1. Install [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) and set up a Debian or Ubuntu distribution.
+
+2. Open a WSL terminal in the directory containing this template.
+
+3. Run the build script:
+
+```bash
+bash build.sh
+```
+
+4. After the script finishes, the ISO will be available at `build/output.iso`. You can then use it in PCSX2.
 
 # For More Resources
 
-- [PS2 Sonic Infinite Runner Source Code](https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2)
-- [The Athena Env repo, documentation included in README](https://github.com/DanielSant0s/AthenaEnv)
+* [PS2 Sonic Infinite Runner Source Code](https://github.com/DevWill-hub/Sonic-Infinite-Runner-PS2)
+* [The Athena Env repo, documentation included in README](https://github.com/DanielSant0s/AthenaEnv)
 
 # Important
 
-The version available in the repository is a stable version called AthenaEnv V4. The documentation/README has been updated to: https://github.com/DanielSant0s/AthenaEnv/blob/v4/README.md
+The version available in the repository is a stable version called AthenaEnv V4. The documentation/README has been updated to: [https://github.com/DanielSant0s/AthenaEnv/blob/v4/README.md](https://github.com/DanielSant0s/AthenaEnv/blob/v4/README.md)
 
 You can still use the version available in the AthenaEnv GitHub Releases section, the most stable version, but remember to use the documentation/README already available from the beginning.
