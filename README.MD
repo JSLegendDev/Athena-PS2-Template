@@ -5,6 +5,8 @@ This is made possible by the AthenaEnv engine.
 
 # How to Run?
 
+See the [How to build the ISO](#how-to-make-an-iso) section for instructions, or you can read below.
+
 Assuming that you have a working PCSX2 emulator on your machine and that you have enabled the
 checkbox "Enable host filesystem" under Settings > Emulation.
 
